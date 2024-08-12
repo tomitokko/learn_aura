@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Dashboard - Learnaura{% endblock %}
+
+{% block content %}
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+<!-- =======================
+Page Banner START -->
+<section class="py-4">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="bg-dark p-4 text-center rounded-3">
+					<h1 style="color: white;" class="m-0">Your Courses</h1>
+					<!-- Breadcrumb -->
+					<div class="d-flex justify-content-center">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb breadcrumb-dots mb-0">
+								<li class="breadcrumb-item"><a href="#">Home</a></li>
+								<li class="breadcrumb-item active" aria-current="page">Your Courses</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- =======================
+Page Banner END -->
+
+<!-- =======================
+Page content START -->
+<section class="pt-0">
+	<div class="container">
+
+		<div class="row mt-3">
+			<!-- Main content START -->
+			<div class="col-12">
+
+				<!-- Course Grid START -->
+				<div class="row g-4">
+					{% if updates_course_list %}
+
+					{% for item in updates_course_list reversed %}
+					<!-- Card item START -->
+					<div class="col-sm-6 col-lg-4 col-xl-3">
+						<div class="card shadow h-100">
+							<!-- Image -->
+							<img src="{{item.course.image_url}}" class="card-img-top" alt="course image">
+							<!-- Card body -->
+							<div class="card-body pb-0">
+								<!-- Badge and favorite -->
+								<div class="d-flex justify-content-between mb-2">
+									<a href="#" class="badge bg-purple bg-opacity-10 text-purple">{{item.course.skill_level | title}}</a>
+									<a href="#" class="h6 fw-light mb-0"><i class="far fa-heart"></i></a>
+								</div>
+								<!-- Title -->
+								<h5 class="card-title"><a href="{% url 'course_detail' item.course.id %}">{{item.course.title | title}}</a></h5>
+							</div>
+							<!-- Card footer -->
+							<div class="card-footer pt-0 pb-3">
+								<hr>
+								<div class="d-flex justify-content-between">
+									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-globe text-primary"></i>{{item.course.language | title}}</span>
+									<span class="h6 fw-light mb-0"><i class="fas fa-table text-orange me-2"></i>{{ item.total_lessons }} Lessons</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Card item END -->
+					{% endfor %}
+
+					{% else %}
+					<h2 align="center">You don't have any course. Create new course <a href="/new-course"><u>here</u></a></h2>
+					{% endif %}
+
+				</div>
+				<!-- Course Grid END -->
+
+				<!-- Pagination START -->
+				<!-- <div class="col-12">
+					<nav class="mt-4 d-flex justify-content-center" aria-label="navigation">
+						<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+							<li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-double-left"></i></a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+							<li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#">..</a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#">6</a></li>
+							<li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
+						</ul>
+					</nav>
+				</div> -->
+				<!-- Pagination END -->
+			</div>
+			<!-- Main content END -->
+		</div><!-- Row END -->
+	</div>
+</section>
+<!-- =======================
+Page content END -->
+
+
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+{% endblock %}
+

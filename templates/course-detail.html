@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{{course.title}} - Learnaura{% endblock %}
+
+{% block content %}
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+<!-- =======================
+Page intro START -->
+<section class="bg-light py-0 py-sm-5">
+	<div class="container">
+		<div class="row py-5">
+			<div class="col-lg-8">
+				<!-- Badge -->
+				<!-- <h6 class="mb-3 font-base bg-primary text-white py-2 px-4 rounded-2 d-inline-block">Digital Marketing</h6> -->
+				<!-- Title -->
+				<h1>{{course.title | title}}</h1>
+				<p>{{ course.short_description }}</p>
+				<!-- Content -->
+				<ul class="list-inline mb-0">
+					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-signal text-success me-2"></i>{{course.skill_level | title}} level</li>
+					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="bi bi-patch-exclamation-fill text-danger me-2"></i>Date created {{course.created_date}}</li>
+					<li class="list-inline-item h6 mb-0"><i class="fas fa-globe text-info me-2"></i>{{course.language | title}}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- =======================
+Page intro END -->
+
+<!-- =======================
+Page content START -->
+<section class="pb-0 py-lg-5">
+	<div class="container">
+		<div class="row">
+			<!-- Main content START -->
+			<div class="col-lg-8">
+				<div class="card shadow rounded-2 p-0">
+					<!-- Tabs START -->
+					<div class="card-header border-bottom px-4 py-3">
+						<ul class="nav nav-pills nav-tabs-line py-0" id="course-pills-tab" role="tablist">
+							<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<button class="nav-link mb-2 mb-md-0 active" id="course-pills-tab-1" data-bs-toggle="pill" data-bs-target="#course-pills-1" type="button" role="tab" aria-controls="course-pills-1" aria-selected="true">Overview</button>
+							</li>
+							<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<button class="nav-link mb-2 mb-md-0" id="course-pills-tab-2" data-bs-toggle="pill" data-bs-target="#course-pills-2" type="button" role="tab" aria-controls="course-pills-2" aria-selected="false">Curriculum</button>
+							</li>
+						</ul>
+					</div>
+					<!-- Tabs END -->
+
+					<!-- Tab contents START -->
+					<div class="card-body p-4">
+						<div class="tab-content pt-2" id="course-pills-tabContent">
+							<!-- Content START -->
+							<div class="tab-pane fade show active" id="course-pills-1" role="tabpanel" aria-labelledby="course-pills-tab-1">
+								<!-- Course detail START -->
+								<h5 class="mb-3">Course Description</h5>
+								<p class="mb-3">{{ course.long_description | safe}}</strong></p>
+								<!-- Course detail END -->
+
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							<div class="tab-pane fade" id="course-pills-2" role="tabpanel" aria-labelledby="course-pills-tab-2">
+								<!-- Course accordion START -->
+								<div class="accordion accordion-icon accordion-bg-light" id="accordionExample2">
+									
+
+									<!-- Item -->
+									{% for module, lessons in modules.items %}
+									<div class="accordion-item mb-3">
+										<h6 class="accordion-header font-base" id="heading-{{module.order}}">
+											<button class="accordion-button fw-bold collapsed rounded d-sm-flex d-inline-block" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{module.order}}" aria-expanded="false" aria-controls="collapse-2">
+												{{ module.title | title}} 
+												<span class="small ms-0 ms-sm-2">({{ lessons|length }} Lessons)</span> 
+											</button>
+										</h6>
+										<div id="collapse-{{module.order}}" class="accordion-collapse collapse" aria-labelledby="heading-{{module.order}}" data-bs-parent="#accordionExample2">
+											<!-- Accordion body START -->
+											<div class="accordion-body mt-3">
+												<!-- Course lecture -->
+												{% for lesson in lessons %}
+												<div class="d-flex justify-content-between align-items-center">
+													<div class="position-relative d-flex align-items-center">
+														<a href="{% url 'lesson' lesson.id %}" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+															<i class="fas fa-play me-0"></i>
+														</a>
+														<span class="d-inline-block ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
+															<a href="{% url 'lesson' lesson.id %}">
+																{{ lesson.title }}
+															</a>
+														</span>
+													</div>
+												</div>
+
+												<hr> <!-- Divider -->
+												{% endfor %}
+											</div>
+											<!-- Accordion body END -->
+										</div>
+									</div>
+									{% endfor %}
+
+								</div>
+								<!-- Course accordion END -->
+							</div>
+							<!-- Content END -->
+
+						</div>
+					</div>
+					<!-- Tab contents END -->
+				</div>
+			</div>
+			<!-- Main content END -->
+
+			<!-- Right sidebar START -->
+			<div class="col-lg-4 pt-5 pt-lg-0">
+				<div class="row mb-5 mb-lg-0">
+					<div class="col-md-6 col-lg-12">
+						<!-- Video START -->
+						<div class="card shadow p-2 mb-4 z-index-9">
+							<div class="overflow-hidden rounded-3">
+								<img src="{{ course.image_url }}" class="card-img" alt="course image">
+							</div>
+		
+							<!-- Card body -->
+							<div class="card-body px-3">
+								<!-- Info -->
+								<div class="d-flex justify-content-between align-items-center">
+									<!-- Price and time -->
+									<div>
+										<div class="d-flex align-items-center">
+											<h3 class="fw-bold mb-0 me-2">{{course.title | title}}</h3>
+										</div>
+									</div>
+
+									<!-- Share button with dropdown -->
+									<div class="dropdown">
+										<!-- Share button -->
+										<a href="#" class="btn btn-sm btn-light rounded small" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
+											<i class="fas fa-fw fa-share-alt"></i>
+										</a>
+										<!-- dropdown button -->
+										<ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">
+											<li><span class="dropdown-item"><i class="fas fa-copy me-2"></i>Share This Course Code: {{course.course_code}}</span></li>
+											
+										</ul>
+										
+									</div>
+									
+								</div>
+
+								<!-- Buttons -->
+								<div class="mt-3 d-sm-flex justify-content-sm-between">
+									<a href="{{ button_url }}" class="btn btn-outline-primary mb-0">{{ button_text }}</a>
+								</div>
+								<p style="margin-top: 10px">Share Course Code: <b>{{ course.course_code }}</b></p>
+							</div>
+						</div>
+						<!-- Video END -->
+
+						<!-- Course info START -->
+						<div class="card card-body shadow p-4 mb-4">
+							<!-- Title -->
+							<h4 class="mb-3">This course includes</h4>
+							<ul class="list-group list-group-borderless">
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-book-open text-primary"></i>Lessons</span>
+									<span>{{ lessons_count }}</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-signal text-primary"></i>Skill Level</span>
+									<span>{{course.skill_level | title}}</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-globe text-primary"></i>Language</span>
+									<span>{{course.language | title}}</span>
+								</li>
+							</ul>
+						</div>
+						<!-- Course info END -->
+					</div>
+
+				</div><!-- Row End -->
+			</div>
+			<!-- Right sidebar END -->
+
+		</div><!-- Row END -->
+	</div>
+</section>
+<!-- =======================
+Page content END -->
+
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+{% endblock %}
